@@ -121,3 +121,9 @@ osdep-devmapper-getroot-set-up-cheated-luks2-cryptodisk-mount-from-dm-parameters
 arm64-handover-to-kernel-if-sb-enabled.patch
 grub_os-prober.patch
 os-prober-Allow-initrd-to-contain-spaces.patch
+ntfs-cve-fixes/fs-ntfs-Fix-an-OOB-write-when-parsing-the-ATTRIBUTE_LIST-.patch
+ntfs-cve-fixes/fs-ntfs-Fix-an-OOB-read-when-reading-data-from-the-reside.patch
+ntfs-cve-fixes/fs-ntfs-Fix-an-OOB-read-when-parsing-directory-entries-fr.patch
+ntfs-cve-fixes/fs-ntfs-Fix-an-OOB-read-when-parsing-bitmaps-for-index-at.patch
+ntfs-cve-fixes/fs-ntfs-Fix-an-OOB-read-when-parsing-a-volume-label.patch
+ntfs-cve-fixes/fs-ntfs-Make-code-more-readable.patch
