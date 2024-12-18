@@ -1,3 +1,9 @@
+grub2 (2.06-13+deb12u1~1) bookworm; urgency=medium
+
+  * Add support for grub.dtb
+
+ -- Rippanda12 <panda@fydeos.io>  Fri, 15 Nov 2024 21:28:56 +0000
+
 grub2 (2.06-13+deb12u1) bookworm-security; urgency=medium
 
   [ Mate Kukri ]
