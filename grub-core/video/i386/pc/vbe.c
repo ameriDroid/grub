@@ -514,7 +514,7 @@ grub_vbe_probe (struct grub_vbe_info_block *info_block)
 
       /* Use low memory scratch area as temporary storage
          for VESA BIOS call.  */
-      vbe_ib = (struct grub_vbe_info_block *) GRUB_MEMORY_MACHINE_SCRATCH_ADDR;
+      vbe_ib = (struct grub_vbe_info_block *) grub_absolute_pointer (GRUB_MEMORY_MACHINE_SCRATCH_ADDR);
 
       /* Prepare info block.  */
       grub_memset (vbe_ib, 0, sizeof (*vbe_ib));
@@ -574,7 +574,7 @@ grub_vbe_get_preferred_mode (unsigned int *width, unsigned int *height)
 
   /* Use low memory scratch area as temporary storage for VESA BIOS calls.  */
   flat_panel_info = (struct grub_vbe_flat_panel_info *)
-    (GRUB_MEMORY_MACHINE_SCRATCH_ADDR + sizeof (struct grub_video_edid_info));
+    grub_absolute_pointer (GRUB_MEMORY_MACHINE_SCRATCH_ADDR + sizeof (struct grub_video_edid_info));
 
   if (controller_info.version >= 0x200
       && (grub_vbe_bios_get_ddc_capabilities (&ddc_level) & 0xff)
@@ -676,7 +676,7 @@ grub_vbe_set_video_mode (grub_uint32_t vbe_mode,
 	  == GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL)
 	{
 	  struct grub_vbe_palette_data *palette
-	    = (struct grub_vbe_palette_data *) GRUB_MEMORY_MACHINE_SCRATCH_ADDR;
+	    = (struct grub_vbe_palette_data *) grub_absolute_pointer (GRUB_MEMORY_MACHINE_SCRATCH_ADDR);
 	  unsigned i;
 
 	  /* Make sure that the BIOS can reach the palette.  */
@@ -1053,6 +1053,15 @@ grub_video_vbe_setup (unsigned int width, unsigned int height,
 	  if (vbe_mode_info.x_resolution > width
 	      || vbe_mode_info.y_resolution > height)
 	    /* Resolution exceeds that of preferred mode.  */
+	    continue;
+
+	  /* Blacklist 1440x900x32 from preferred mode handling until a
+	     better solution is available.  This mode causes problems on
+	     many Thinkpads.  See:
+	       https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/701111  */
+	  if (vbe_mode_info.x_resolution == 1440 &&
+	      vbe_mode_info.y_resolution == 900 &&
+	      vbe_mode_info.bits_per_pixel == 32)
 	    continue;
 	}
       else
