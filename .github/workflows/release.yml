@@ -34,6 +34,12 @@ jobs:
     needs: build
     runs-on: [ self-hosted, ubuntu-24.04, pkg ]
     steps:
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y reprepro gnupg git unzip openssh-client
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -42,11 +48,6 @@ jobs:
         with:
           repository: ameridroid/apt-repo
           path: repo
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y reprepro gnupg git unzip openssh-client
 
       - uses: actions/download-artifact@v4
         with:
